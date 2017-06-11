@@ -84,7 +84,12 @@
         this.dragStyle.top = 0 + 'px'
         this.dragConW = 800
         this.dragConH = 400
-        this.$emit('change-isAshow', false)
+        this.emitData.length = 0
+        this.emitData.push(false)
+        this.emitData.push('')
+        this.emitData.push(1)
+        this.emitData.push('')
+        this.$emit('change-isAshow', this.emitData)
       },
       setStyle: function () {
         let bodyW = document.documentElement.clientWidth
@@ -123,7 +128,6 @@
 
               moveX = Math.min(maxX, Math.max(0, moveX))
               moveY = Math.min(maxY, Math.max(0, moveY))
-
               this.dragStyle.left = moveX + 'px'
               this.dragStyle.top = moveY + 'px'
             }
@@ -146,8 +150,8 @@
 //        this.dragStyle.height = document.documentElement.clientHeight + 'px'
 //        this.dragStyle.left = 0 + 'px'
 //        this.dragStyle.top = 0 + 'px'
-        this.dragConW = document.documentElement.clientWidth - 6
-        this.dragConH = document.documentElement.clientHeight - 30
+//        this.dragConW = document.documentElement.clientWidth - 6
+//        this.dragConH = document.documentElement.clientHeight - 30
         let drCw = document.documentElement.clientWidth - 6
         let drCh = document.documentElement.clientHeight - 30
         $('.drag').animate({width: drSwidth, height: drSheight, left: drSleft, top: drStop}, 'slow')
@@ -156,20 +160,6 @@
       },
       minimize: function () {
         this.isShow = false
-//        let drSwidth = 800 + 'px'
-//        let drSheight = 428 + 'px'
-//        let drSleft = 0 + 'px'
-//        let drStop = 0 + 'px'
-        this.dragStyle.width = 800 + 'px'
-        this.dragStyle.height = 428 + 'px'
-        this.dragStyle.left = 0 + 'px'
-        this.dragStyle.top = 0 + 'px'
-        this.dragConW = 800
-        this.dragConH = 400
-//        let drCw = 800
-//        let drCh = 400
-//        $('.drag').animate({width: drSwidth, height: drSheight, left: drSleft, top: drStop}, 'slow')
-//        $('.myIframe').animate({width: drCw, height: drCh}, 'slow')
         this.emitData.length = 0
         this.emitData.push(true)
         this.emitData.push(this.src)
@@ -187,30 +177,10 @@
         let drSleft = (bodyW - dragW) / 2 + 'px'
         let drStop = (bodyH - dragH) / 2 + 'px'
         $('.drag').animate({width: drSwidth, height: drSheight, left: drSleft, top: drStop}, 'slow')
-//        this.dragStyle.width = 800 + 'px'
-//        this.dragStyle.height = 428 + 'px'
-//        this.dragStyle.left = 0 + 'px'
-//        this.dragStyle.top = 0 + 'px'
-//        this.dragConW = 800
-//        this.dragConH = 400
         let drCw = 800
         let drCh = 400
         $('.myIframe').animate({width: drCw, height: drCh}, 'slow')
         this.isAshow = true
-//          let bodyW = document.documentElement.clientWidth
-//          let bodyH = document.documentElement.clientHeight
-//          let dragW = $('.drag').width()
-//          let dragH = $('.drag').height()
-//          console.log(dragW)
-//          $('.drag')[0].style.left = (bodyW - dragW) / 2 + 'px'
-//          $('.drag')[0].style.top = (bodyH - dragH) / 2 + 'px'
-//          $('.drag').css({left: (bodyW - dragW) / 2 + 'px'})
-//          console.log('ttt')
-
-//        this.isAshow = true
-//        this.$nextTick(() => {
-//        this.setStyle()
-//        })
       }
     }
   }

@@ -2,7 +2,8 @@
   <div id="firstPopup" :style="firstPopupStyle">
     <div class="iconList" id="iconList">
       <ul id="iconUl" :class="iconsize" class="iconUl" ref="iconUl">
-        <li v-for="(appli, index) in appliList" class="iconLi" ref="iconLi" @click="showSecondPopup(appli.url)">
+        <li v-for="(appli, index) in appliList" class="iconLi" ref="iconLi" @click="showSecondPopup(appli.name,appli.url)"
+            :class="{active: activeName === appli.name}">
           <div>
             <img :src="appli.icon"/>
           </div>
@@ -12,10 +13,15 @@
     </div>
     <div class="pailie" :class="plchioce">
       <a v-show="isAshow" @click="recovery">我是最小化</a>
-      <span @click="chagecolumn">横向排列</span>
-      <em @click="chageline">纵向排列</em>
+      <!--<span @click="chagecolumn">横向排列</span>-->
+      <!--<em @click="chageline">纵向排列</em>-->
     </div>
     <v-drag :src="src" :tNum="tNum" :ifShow="ifShow" @change-isAshow="changeIsAshow"></v-drag>
+    <div class="operation">
+      <span class="line" @click="chageline"></span>
+      <span class="column" @click="chagecolumn"></span>
+      <span class="close"></span>
+    </div>
   </div>
 </template>
 
@@ -44,7 +50,8 @@
           height: ''
         },
         plchioce: 'line',
-        emitSrc: '' // 子组件传过来的src
+        emitSrc: '', // 子组件传过来的src
+        activeName: ''
       }
     },
     components: {
@@ -77,11 +84,13 @@
       this.firstPopupLi.height = window.getComputedStyle(this.$refs.iconLi[0]).height
     },
     methods: {
-      showSecondPopup: function (url) {
+      showSecondPopup: function (name, url) {
         this.src = url + '?time=' + Math.random()
         this.tNum += 1
         this.ifShow = 0
         this.isAshow = true
+        this.activeName = name
+        console.log(this.activeName === name)
       },
       hideSecondPopup: function () {
         this.src = this.src
@@ -121,8 +130,6 @@
           for (let i = 0; i < li.length; i++) {
 //            数量/一列li数 取整 =当前模块的left值
             li[i].style.left = lineCount === 0 ? 10 + 'px' : ((parseInt(this.firstPopupLi.width) + 22) * lineCount) + 'px'
-      //      console.log(lineCount)
-            console.log(Math.floor(i / columnNumber))
             li[i].style.top = Math.floor(i / columnNumber) < 1 ? 15 + 'px' : (parseInt(this.firstPopupLi.height.split('p')[0]) + 2 + 15) * Math.floor(i / columnNumber) + 15 + 'px'
             lineCount >= columnNumber - 1 ? lineCount = 0 : lineCount++
           }
@@ -141,6 +148,8 @@
         this.isAshow = data[0]
         if (data[1]) {
           this.emitSrc = data[1]
+        } else {
+          this.activeName = ''
         }
       },
       recovery: function () {
@@ -188,9 +197,12 @@
       & > ul
         height 100%
         position relative
+      .active
+        background-color rgba(255,255,255,0.5)
+        border 1px solid #ffffff
       & > ul.smallSize > li
-        width 73px
-        height 88px
+        width 68px
+        height 114px
       & > ul.middleSize > li
         width 85px
         height 85px
@@ -208,9 +220,9 @@
         &:hover
           background-color rgba(255,255,255,0.5)
           border 1px solid #ffffff
-        & > div > img
-          width 50px
-          height 50px
+        & > div
+          width 70px
+          height 74px
         & > span
           width 60px
           display block
@@ -218,5 +230,50 @@
           font-size 12px
           text-align center
           color #fff
+          margin-top 10px
+    .operation
+      background rgba(255, 255, 255, 0.2)
+      width 286px
+      height 40px
+      position fixed
+      bottom 30px
+      z-index 100
+      margin:0 auto
+      left 0
+      right 0
+      font-size: 0
+      border-left: 1px solid #ffffff
+      & > span
+        display block
+        float left
+        width 94px
+        height 38px
+        line-height 38px
+        text-align center
+        border 1px solid #ffffff
+        border-left 0 !important
+        font-size 14px
+        color #ffffff
+        cursor pointer
+        &:hover:before
+          content ''
+      .line:before
+        content '纵向'
+        background none
+      .line:hover
+        width 94px
+        height 38px
+        background url("/static/img/line.png") 0 0 no-repeat
+      .column:hover
+        width 94px
+        height 38px
+        background url("/static/img/column.png") 0 0 no-repeat
+      .column:before
+        content '横向'
+        background none
+      .close:before
+        content '关闭'
+      .close:hover
+        background url("/static/img/colse.png") 0 0 no-repeat
 </style>
 
