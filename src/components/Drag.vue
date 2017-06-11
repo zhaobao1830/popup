@@ -1,0 +1,271 @@
+<template>
+  <div>
+    <div class="drag" id="drag" ref="drag" v-show="isShow" :style="dragStyle">
+      <div class="dragTitle" onslectstart="return false">
+        <a href="javascript:;" title='关闭' class="close" @click="closeDrag">
+          <img src="../common/img/close.png"/>
+        </a>
+        <a href="javascript:;" title='最大化' class="maximization" @click="maximization" v-if="isAshow===true">
+          <img src="../common/img/maximization.png"/>
+        </a>
+        <a href="javascript:;" title='还原' class="maximization" @click="remaximi" v-else="isAshow===false">
+          <img src="../common/img/reduction.png"/>
+        </a>
+        <a href="javascript:;" title='最小化' class="minimize" @click="minimize">
+          <img src="../common/img/minimize.png"/>
+        </a>
+      </div>
+      <div class="dragContent" ref="dragContent">
+        <iframe ref="myIframe" name="myIframe" class="myIframe" id="myIframe" :src="src" :width="dragConW" :height="dragConH"></iframe>
+        <div class="dragCon-mask" id="mask" v-show="isShowBac" onslectstart="return false"></div>
+      </div>
+    </div>
+    <div class="drag-mask" v-show="isShowBac" onslectstart="return false" onmousemove="event.returnValue=false;"></div>
+  </div>
+</template>
+
+<script type="text/ecmascript-6">
+  import $ from 'jquery'
+  export default {
+    props: ['src', 'tNum', 'ifShow'],
+    data () {
+      return {
+        isShow: false,
+        mouseOffsetX: 0,   // 鼠标偏移量
+        mouseOffsetY: 0,
+        isDraging: false,  // 是否可拖动
+        isShowBac: false,
+        isAshow: true,
+        dragStyle: {
+          width: 800 + 'px',
+          height: 428 + 'px',
+          left: 0,
+          top: 0
+        },
+        emitData: [],
+        dragConW: 800, // 悬浮层content的width
+        dragConH: 400  // 悬浮层content的height
+      }
+    },
+    watch: {
+      'tNum': function (val, oldValue) {
+        if (this.ifShow === 0) {
+          this.isShow = true
+          this.$nextTick(() => {
+            this.setStyle()
+            this.emitData.length = 0
+            this.emitData.push(true)
+            this.emitData.push(this.src)
+            this.emitData.push(1)
+            this.$emit('change-isAshow', this.emitData)
+          })
+        } else {
+          this.isShow = false
+          this.emitData.length = 0
+          this.emitData.push(true)
+          this.emitData.push(this.src)
+          this.emitData.push(0)
+          this.$emit('change-isAshow', this.emitData)
+        }
+      }
+    },
+    mounted () {
+      this.$nextTick(() => {
+        this.drapMousedown()
+      })
+    },
+    methods: {
+      closeDrag: function () {
+        document.getElementById('myIframe').src = ''
+        this.isShow = false
+        this.dragStyle.width = 800 + 'px'
+        this.dragStyle.height = 428 + 'px'
+        this.dragStyle.left = 0 + 'px'
+        this.dragStyle.top = 0 + 'px'
+        this.dragConW = 800
+        this.dragConH = 400
+        this.$emit('change-isAshow', false)
+      },
+      setStyle: function () {
+        let bodyW = document.documentElement.clientWidth
+        let bodyH = document.documentElement.clientHeight
+        let dragW = this.$refs.drag.offsetWidth
+        let dragH = this.$refs.drag.offsetHeight
+        this.dragStyle.left = (bodyW - dragW) / 2 + 'px'
+        this.dragStyle.top = (bodyH - dragH) / 2 + 'px'
+      },
+      drapMousedown: function () {
+        this.$refs.drag.addEventListener('mousedown', (e) => {
+          this.isShowBac = true
+          let ee = e || window.event
+          this.mouseOffsetX = ee.pageX - this.$refs.drag.offsetLeft
+          this.mouseOffsetY = ee.pageY - this.$refs.drag.offsetTop
+          this.isDraging = true
+          //  鼠标事件2 － 鼠标移动时（要检测，元素是否可标记为移动，如果是，则更新元素的位置，到当前鼠标的位置［ps：要减去第一步中获得的偏移］）
+          document.onmousemove = (e) => {
+            let ee = e || window.event
+            let mouseX = ee.pageX   // 鼠标当前的位置
+            let mouseY = ee.pageY
+
+            let moveX = 0  //  浮层元素的新位置
+            let moveY = 0
+            if (this.isDraging === true) {
+              moveX = mouseX - this.mouseOffsetX
+              moveY = mouseY - this.mouseOffsetY
+              let pageWidth = document.documentElement.clientWidth
+              let pageHeight = document.documentElement.clientHeight
+
+              let dialogWidth = this.$refs.drag.offsetWidth
+              let dialogHeight = this.$refs.drag.offsetHeight
+
+              let maxX = pageWidth - dialogWidth
+              let maxY = pageHeight - dialogHeight
+
+              moveX = Math.min(maxX, Math.max(0, moveX))
+              moveY = Math.min(maxY, Math.max(0, moveY))
+
+              this.dragStyle.left = moveX + 'px'
+              this.dragStyle.top = moveY + 'px'
+            }
+          }
+          //  鼠标事件3 － 鼠标松开的时候（标记元素为不可拖动即可）
+          document.onmouseup = () => {
+            this.isDraging = false
+            this.isShowBac = false
+          }
+        })
+      },
+      maximization: function () {
+        let drSwidth = document.documentElement.clientWidth + 'px'
+        let drSheight = document.documentElement.clientHeight + 'px'
+        let drSleft = 0 + 'px'
+        let drStop = 0 + 'px'
+//        let drCw = document.documentElement.clientWidth - 6
+//        let drCh = document.documentElement.clientHeight - 30
+//        this.dragStyle.width = document.documentElement.clientWidth + 'px'
+//        this.dragStyle.height = document.documentElement.clientHeight + 'px'
+//        this.dragStyle.left = 0 + 'px'
+//        this.dragStyle.top = 0 + 'px'
+        this.dragConW = document.documentElement.clientWidth - 6
+        this.dragConH = document.documentElement.clientHeight - 30
+        let drCw = document.documentElement.clientWidth - 6
+        let drCh = document.documentElement.clientHeight - 30
+        $('.drag').animate({width: drSwidth, height: drSheight, left: drSleft, top: drStop}, 'slow')
+        $('.myIframe').animate({width: drCw, height: drCh}, 'slow')
+        this.isAshow = false
+      },
+      minimize: function () {
+        this.isShow = false
+//        let drSwidth = 800 + 'px'
+//        let drSheight = 428 + 'px'
+//        let drSleft = 0 + 'px'
+//        let drStop = 0 + 'px'
+        this.dragStyle.width = 800 + 'px'
+        this.dragStyle.height = 428 + 'px'
+        this.dragStyle.left = 0 + 'px'
+        this.dragStyle.top = 0 + 'px'
+        this.dragConW = 800
+        this.dragConH = 400
+//        let drCw = 800
+//        let drCh = 400
+//        $('.drag').animate({width: drSwidth, height: drSheight, left: drSleft, top: drStop}, 'slow')
+//        $('.myIframe').animate({width: drCw, height: drCh}, 'slow')
+        this.emitData.length = 0
+        this.emitData.push(true)
+        this.emitData.push(this.src)
+        this.emitData.push(0)
+        this.$emit('change-isAshow', this.emitData)
+        document.getElementById('myIframe').src = ''
+      },
+      remaximi: function () {
+        let drSwidth = 800 + 'px'
+        let drSheight = 428 + 'px'
+        let bodyW = document.documentElement.clientWidth
+        let bodyH = document.documentElement.clientHeight
+        let dragW = 800
+        let dragH = 428
+        let drSleft = (bodyW - dragW) / 2 + 'px'
+        let drStop = (bodyH - dragH) / 2 + 'px'
+        $('.drag').animate({width: drSwidth, height: drSheight, left: drSleft, top: drStop}, 'slow')
+//        this.dragStyle.width = 800 + 'px'
+//        this.dragStyle.height = 428 + 'px'
+//        this.dragStyle.left = 0 + 'px'
+//        this.dragStyle.top = 0 + 'px'
+//        this.dragConW = 800
+//        this.dragConH = 400
+        let drCw = 800
+        let drCh = 400
+        $('.myIframe').animate({width: drCw, height: drCh}, 'slow')
+        this.isAshow = true
+//          let bodyW = document.documentElement.clientWidth
+//          let bodyH = document.documentElement.clientHeight
+//          let dragW = $('.drag').width()
+//          let dragH = $('.drag').height()
+//          console.log(dragW)
+//          $('.drag')[0].style.left = (bodyW - dragW) / 2 + 'px'
+//          $('.drag')[0].style.top = (bodyH - dragH) / 2 + 'px'
+//          $('.drag').css({left: (bodyW - dragW) / 2 + 'px'})
+//          console.log('ttt')
+
+//        this.isAshow = true
+//        this.$nextTick(() => {
+//        this.setStyle()
+//        })
+      }
+    }
+  }
+</script>
+
+<style lang="stylus" rel="stylesheet/stylus" type="text/stylus">
+  .drag
+    position absolute
+    top 0
+    left 0
+    z-index 9000
+    background #fff
+    .dragTitle
+      width 100%
+      height 30px
+      background-color #467cd4
+      float left
+      cursor move
+      & > a
+        width 20px
+        height 30px
+        line-height 30px
+        float right
+        display block
+        margin 0 5px
+        color #fff
+        cursor pointer
+        text-decoration none
+      & > a:hover
+        background-color #5989d8
+      .minimize > img
+        margin-bottom 5px
+    .dragContent
+      position relative
+      float left
+      .myIframe
+        border none !important
+      .dragCon-mask
+        width 100%
+        height 100%
+        background: #fff
+        opacity: 0
+        filter: Alpha(opacity=0)
+        position: absolute
+        top: 0
+        left: 0
+        z-index: 8000
+  .drag-mask
+    width 100%
+    height 100%
+    background: #fff
+    opacity: 0
+    filter: Alpha(opacity=0)
+    position: absolute
+    top: 0
+    left: 0
+    z-index: 7000
+</style>

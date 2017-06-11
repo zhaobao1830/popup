@@ -1,0 +1,54 @@
+{
+  "application": [
+    {
+      "name": "企业认证",
+      "icon": "/static/img/enterCertifi.png",
+      "url": "http://www.baidu.com/"
+    },
+    {
+      "name": "企业资料变更",
+      "icon": "/static/img/enterDataChange.png",
+      "url": "http://web.sanguosha.com/"
+    },
+    {
+      "name": "服务订单",
+      "icon": "/static/img/serviceOrder.png",
+      "url": "http://www.baidu.com/"
+    },
+    {
+      "name": "供方交易系统",
+      "icon": "/static/img/supTranSys.png",
+      "url": "http://www.baidu.com/"
+    },
+    {
+      "name": "劳务招标系统",
+      "icon": "/static/img/serviceBidding.png",
+      "url": "http://www.baidu.com/"
+    },
+    {
+      "name": "机械设备",
+      "icon": "/static/img/mechEqui.png",
+      "url": "http://www.baidu.com/"
+    },
+    {
+      "name": "专家认证",
+      "icon": "/static/img/expertCertifi.png",
+      "url": "http://www.baidu.com/"
+    },
+    {
+      "name": "劳务评标系统",
+      "icon": "/static/img/laborEvalSys.png",
+      "url": "http://www.baidu.com/"
+    },
+    {
+      "name": "专家评标系统",
+      "icon": "/static/img/expertEvalSys.png",
+      "url": "http://www.baidu.com/"
+    },
+    {
+      "name": "物料编码",
+      "icon": "/static/img/materialCoding.png",
+      "url": "http://www.baidu.com/"
+    }
+  ]
+}
