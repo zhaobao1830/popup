@@ -12,12 +12,13 @@
       </ul>
     </div>
     <div class="pailie" :class="plchioce">
-      <a v-show="isAshow" @click="recovery">我是最小化</a>
+      <!--<a v-show="isAshow" @click="recovery">我是最小化</a>-->
       <!--<span @click="chagecolumn">横向排列</span>-->
       <!--<em @click="chageline">纵向排列</em>-->
     </div>
-    <v-drag :src="src" :tNum="tNum" :ifShow="ifShow" @change-isAshow="changeIsAshow"></v-drag>
-    <div class="operation">
+    <v-drag :src="src" :tNum="tNum" :ifShow="ifShow" :activeName="activeName" @change-isAshow="changeIsAshow"></v-drag>
+    <div class="operation" ref="operation" :style="operationStyle">
+      <span v-show="isAshow" @click="recovery">最小化</span>
       <span class="line" @click="chageline"></span>
       <span class="column" @click="chagecolumn"></span>
       <span class="close"></span>
@@ -49,6 +50,9 @@
           width: '',
           height: ''
         },
+        operationStyle: {
+          left: ''
+        },
         plchioce: 'line',
         emitSrc: '', // 子组件传过来的src
         activeName: ''
@@ -66,6 +70,7 @@
           } else if (this.plchioce === 'column') {
             this.operationColumnUl()
           }
+          this.setOperation()
         })
       })
       var that = this
@@ -77,6 +82,7 @@
         } else if (this.plchioce === 'column') {
           this.operationColumnUl()
         }
+        this.setOperation()
       }
     },
     updated () {
@@ -84,13 +90,12 @@
       this.firstPopupLi.height = window.getComputedStyle(this.$refs.iconLi[0]).height
     },
     methods: {
-      showSecondPopup: function (name, url) {
+      showSecondPopup: function (activeName, url) {
         this.src = url + '?time=' + Math.random()
         this.tNum += 1
         this.ifShow = 0
         this.isAshow = true
-        this.activeName = name
-        console.log(this.activeName === name)
+        this.activeName = activeName
       },
       hideSecondPopup: function () {
         this.src = this.src
@@ -148,16 +153,22 @@
         this.isAshow = data[0]
         if (data[1]) {
           this.emitSrc = data[1]
+          this.activeName = data[3]
         } else {
           this.activeName = ''
         }
       },
       recovery: function () {
         if (this.ifMin === 0) {
-          this.showSecondPopup(this.emitSrc)
+          this.showSecondPopup(this.activeName, this.emitSrc)
         } else {
           this.hideSecondPopup()
         }
+      },
+      setOperation: function () {
+        let bodyWidth = document.documentElement.clientWidth
+        let operationWidth = this.$refs.operation.offsetWidth
+        this.operationStyle.left = (bodyWidth - operationWidth) / 2 + 'px'
       }
     }
   }
@@ -202,7 +213,7 @@
         border 1px solid #ffffff
       & > ul.smallSize > li
         width 68px
-        height 114px
+        height 90px
       & > ul.middleSize > li
         width 85px
         height 85px
@@ -222,7 +233,7 @@
           border 1px solid #ffffff
         & > div
           width 70px
-          height 74px
+          height 50px
         & > span
           width 60px
           display block
@@ -232,17 +243,14 @@
           color #fff
           margin-top 10px
     .operation
-      background rgba(255, 255, 255, 0.2)
-      width 286px
+      width auto
       height 40px
       position fixed
       bottom 30px
       z-index 100
-      margin:0 auto
       left 0
-      right 0
       font-size: 0
-      border-left: 1px solid #ffffff
+      border-left: 1px solid rgba(255, 255, 255, 0.5)
       & > span
         display block
         float left
@@ -250,10 +258,10 @@
         height 38px
         line-height 38px
         text-align center
-        border 1px solid #ffffff
+        border 1px solid rgba(255, 255, 255, 0.5)
         border-left 0 !important
         font-size 14px
-        color #ffffff
+        color rgba(255, 255, 255, 0.2)
         cursor pointer
         &:hover:before
           content ''

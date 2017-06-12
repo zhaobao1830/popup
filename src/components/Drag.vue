@@ -27,7 +27,7 @@
 <script type="text/ecmascript-6">
   import $ from 'jquery'
   export default {
-    props: ['src', 'tNum', 'ifShow'],
+    props: ['src', 'tNum', 'ifShow', 'activeName'],
     data () {
       return {
         isShow: false,
@@ -57,6 +57,7 @@
             this.emitData.push(true)
             this.emitData.push(this.src)
             this.emitData.push(1)
+            this.emitData.push(this.activeName)
             this.$emit('change-isAshow', this.emitData)
           })
         } else {
@@ -164,8 +165,9 @@
         this.emitData.push(true)
         this.emitData.push(this.src)
         this.emitData.push(0)
+        this.emitData.push(this.activeName)
         this.$emit('change-isAshow', this.emitData)
-        document.getElementById('myIframe').src = ''
+//        document.getElementById('myIframe').src = ''
       },
       remaximi: function () {
         let drSwidth = 800 + 'px'
