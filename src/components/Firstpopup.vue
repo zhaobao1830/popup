@@ -250,7 +250,7 @@
       z-index 100
       left 0
       font-size: 0
-      border-left: 1px solid rgba(255, 255, 255, 0.5)
+      border-left: 1px solid rgba(255, 255, 255, 0.2)
       & > span
         display block
         float left
@@ -258,7 +258,7 @@
         height 38px
         line-height 38px
         text-align center
-        border 1px solid rgba(255, 255, 255, 0.5)
+        border 1px solid rgba(255, 255, 255, 0.2)
         border-left 0 !important
         font-size 14px
         color rgba(255, 255, 255, 0.2)
