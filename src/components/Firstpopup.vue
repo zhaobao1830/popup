@@ -11,11 +11,6 @@
         </li>
       </ul>
     </div>
-    <div class="pailie" :class="plchioce">
-      <!--<a v-show="isAshow" @click="recovery">我是最小化</a>-->
-      <!--<span @click="chagecolumn">横向排列</span>-->
-      <!--<em @click="chageline">纵向排列</em>-->
-    </div>
     <v-drag :src="src" :tNum="tNum" :ifShow="ifShow" :activeName="activeName" @change-isAshow="changeIsAshow"></v-drag>
     <div class="operation" ref="operation" :style="operationStyle">
       <span v-show="isAshow" @click="recovery">最小化</span>
@@ -182,27 +177,6 @@
     background-size cover
     background-position 0 0
     background-repeat no-repeat
-    .pailie
-      right 0
-      bottom 0
-      position absolute
-      border 1px #eee solid
-      display block
-      em
-      span
-      a
-        padding 5px
-        font-style normal
-        display inline-block
-        cursor pointer
-      &.column
-        span
-          background-color #E4393C
-          color white
-      &.line
-        em
-          background-color #E4393C
-          color white
     .iconList
       height 100%
       & > ul
@@ -214,12 +188,6 @@
       & > ul.smallSize > li
         width 68px
         height 90px
-      & > ul.middleSize > li
-        width 85px
-        height 85px
-      & > ul.bigSize > li
-        width 100px
-        height 100px
       & > ul > li
         list-style none
         overflow hidden
