@@ -26,6 +26,7 @@
 
 <script type="text/ecmascript-6">
   import $ from 'jquery'
+
   export default {
     props: ['src', 'tNum', 'ifShow', 'activeName'],
     data () {
@@ -145,14 +146,6 @@
         let drSheight = document.documentElement.clientHeight + 'px'
         let drSleft = 0 + 'px'
         let drStop = 0 + 'px'
-//        let drCw = document.documentElement.clientWidth - 6
-//        let drCh = document.documentElement.clientHeight - 30
-//        this.dragStyle.width = document.documentElement.clientWidth + 'px'
-//        this.dragStyle.height = document.documentElement.clientHeight + 'px'
-//        this.dragStyle.left = 0 + 'px'
-//        this.dragStyle.top = 0 + 'px'
-//        this.dragConW = document.documentElement.clientWidth - 6
-//        this.dragConH = document.documentElement.clientHeight - 30
         let drCw = document.documentElement.clientWidth - 6
         let drCh = document.documentElement.clientHeight - 30
         $('.drag').animate({width: drSwidth, height: drSheight, left: drSleft, top: drStop}, 'slow')

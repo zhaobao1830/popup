@@ -1,8 +1,8 @@
 <template>
-  <div id="firstPopup" :style="firstPopupStyle">
+  <div id="desktop" :style="desktopStyle">
     <div class="iconList" id="iconList">
-      <ul id="iconUl" :class="iconsize" class="iconUl" ref="iconUl">
-        <li v-for="(appli, index) in appliList" class="iconLi" ref="iconLi" @click="showSecondPopup(appli.name,appli.url)"
+      <ul id="iconUl" class="iconUl iconSize" ref="iconUl">
+        <li v-for="(appli, index) in appliList" ref="iconLi" @click="showDrag(appli.name,appli.url)"
             :class="{active: activeName === appli.name}">
           <div>
             <img :src="appli.icon"/>
@@ -22,30 +22,30 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import drag from './Drag'
+  import drag from './drag'
+
   export default {
-    name: 'firstPopup',
+    name: 'desktop',
     data () {
       return {
+        appliList: [], // 保存请求返回的数据
+        desktopStyle: {
+          height: document.documentElement.clientHeight + 'px',
+          width: document.documentElement.clientWidth + 'px'
+        },
         isAshow: false,
         ifMin: '', // 是否最小化
-        src: '',
+        src: '', // iframe的src
         tNum: {
           type: Number,
           value: 0
         },
         ifShow: 0, // 0表示显示，1表示不显示
-        appliList: [],
-        iconsize: 'smallSize',
-        firstPopupStyle: {
-          height: document.documentElement.clientHeight + 'px',
-          width: document.documentElement.clientWidth + 'px'
-        },
-        firstPopupLi: {
+        desktopLi: {  //  图标li样式
           width: '',
           height: ''
         },
-        operationStyle: {
+        operationStyle: {  // operation(操作)样式
           left: ''
         },
         plchioce: 'line',
@@ -70,8 +70,8 @@
       })
       var that = this
       window.onresize = () => {
-        that.firstPopupStyle.width = document.documentElement.clientWidth + 'px'
-        that.firstPopupStyle.height = document.documentElement.clientHeight + 'px'
+        that.desktopStyle.width = document.documentElement.clientWidth + 'px'
+        that.desktopStyle.height = document.documentElement.clientHeight + 'px'
         if (this.plchioce === 'line') {
           this.operationLineUl()
         } else if (this.plchioce === 'column') {
@@ -81,11 +81,11 @@
       }
     },
     updated () {
-      this.firstPopupLi.width = window.getComputedStyle(this.$refs.iconLi[0]).width
-      this.firstPopupLi.height = window.getComputedStyle(this.$refs.iconLi[0]).height
+      this.desktopLi.width = window.getComputedStyle(this.$refs.iconLi[0]).width
+      this.desktopLi.height = window.getComputedStyle(this.$refs.iconLi[0]).height
     },
     methods: {
-      showSecondPopup: function (activeName, url) {
+      showDrag: function (activeName, url) {
         this.src = url + '?time=' + Math.random()
         this.tNum += 1
         this.ifShow = 0
@@ -100,7 +100,7 @@
 //      设置ul的高度--纵向排列
       operationLineUl: function () {
 //        一列可放的li数量
-        let lineNumber = Math.floor(parseInt(this.firstPopupStyle.height) / parseInt(Number(this.firstPopupLi.height.split('p')[0]) + Number(15)))
+        let lineNumber = Math.floor(parseInt(this.desktopStyle.height) / parseInt(Number(this.desktopLi.height.split('p')[0]) + Number(15)))
 //        页内显示的li的列数
         let columnNumber = Math.floor(this.$refs.iconLi.length / lineNumber)
         this.operationLi(this.$refs.iconLi, lineNumber, columnNumber, 'line')
@@ -108,7 +108,7 @@
 //      设置ul的高度--横向排列
       operationColumnUl: function () {
 //        一行可放的li数量
-        let columnNumber = Math.floor((Number(this.firstPopupStyle.width.split('p')[0]) + 10) / (Number(this.firstPopupLi.width.split('p')[0]) + 20))
+        let columnNumber = Math.floor((Number(this.desktopStyle.width.split('p')[0]) + 10) / (Number(this.desktopLi.width.split('p')[0]) + 20))
 //        页内显示的li的行数
         let lineNumber = Math.floor(this.$refs.iconLi.width / columnNumber)
 
@@ -122,15 +122,15 @@
           for (let i = 0; i < li.length; i++) {
             Math.floor(i / lineNumber) < 1 ? iLineNum = 1 : iLineNum = 2
 //            数量/一列li数 取整 =当前模块的left值
-            li[i].style.left = (parseInt(this.firstPopupLi.width.split('p')[0]) + parseInt(10) + 2) * Math.floor(i / lineNumber) + (10 * iLineNum) + 'px'
-            li[i].style.top = (lineCount === 0 ? 15 + 'px' : ((parseInt(this.firstPopupLi.height.split('p')[0]) + 2 + parseInt(15)) * lineCount + 15 + 'px'))
+            li[i].style.left = (parseInt(this.desktopLi.width.split('p')[0]) + parseInt(10) + 2) * Math.floor(i / lineNumber) + (10 * iLineNum) + 'px'
+            li[i].style.top = (lineCount === 0 ? 15 + 'px' : ((parseInt(this.desktopLi.height.split('p')[0]) + 2 + parseInt(15)) * lineCount + 15 + 'px'))
             lineCount >= lineNumber - 1 ? lineCount = 0 : lineCount++
           }
         } else if (state === 'column') {
           for (let i = 0; i < li.length; i++) {
 //            数量/一列li数 取整 =当前模块的left值
-            li[i].style.left = lineCount === 0 ? 10 + 'px' : ((parseInt(this.firstPopupLi.width) + 22) * lineCount) + 'px'
-            li[i].style.top = Math.floor(i / columnNumber) < 1 ? 15 + 'px' : (parseInt(this.firstPopupLi.height.split('p')[0]) + 2 + 15) * Math.floor(i / columnNumber) + 15 + 'px'
+            li[i].style.left = lineCount === 0 ? 10 + 'px' : ((parseInt(this.desktopLi.width) + 22) * lineCount) + 'px'
+            li[i].style.top = Math.floor(i / columnNumber) < 1 ? 15 + 'px' : (parseInt(this.desktopLi.height.split('p')[0]) + 2 + 15) * Math.floor(i / columnNumber) + 15 + 'px'
             lineCount >= columnNumber - 1 ? lineCount = 0 : lineCount++
           }
         }
@@ -155,7 +155,7 @@
       },
       recovery: function () {
         if (this.ifMin === 0) {
-          this.showSecondPopup(this.activeName, this.emitSrc)
+          this.showDrag(this.activeName, this.emitSrc)
         } else {
           this.hideSecondPopup()
         }
@@ -170,7 +170,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" type="text/stylus">
-  #firstPopup
+  #desktop
     position relative
     overflow hidden
     background-image url("/static/img/background.png")
@@ -185,7 +185,7 @@
       .active
         background-color rgba(255,255,255,0.5)
         border 1px solid #ffffff
-      & > ul.smallSize > li
+      & > ul.iconSize > li
         width 68px
         height 90px
       & > ul > li
