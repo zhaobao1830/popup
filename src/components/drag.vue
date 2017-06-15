@@ -5,10 +5,10 @@
         <a href="javascript:;" title='关闭' class="close" @click="closeDrag">
           <img src="../common/img/close.png"/>
         </a>
-        <a href="javascript:;" title='最大化' class="maximization" @click="maximization" v-if="isAshow===true">
+        <a href="javascript:;" title='最大化' class="maximization" @click="maximization" v-if="redu_max===true">
           <img src="../common/img/maximization.png"/>
         </a>
-        <a href="javascript:;" title='还原' class="maximization" @click="remaximi" v-else="isAshow===false">
+        <a href="javascript:;" title='还原' class="maximization" @click="remaximi" v-else="redu_max===false">
           <img src="../common/img/reduction.png"/>
         </a>
         <a href="javascript:;" title='最小化' class="minimize" @click="minimize">
@@ -28,15 +28,15 @@
   import $ from 'jquery'
 
   export default {
-    props: ['src', 'tNum', 'ifShow', 'activeName'],
+    props: ['src', 'dragNum', 'whetherShow', 'activeName'],
     data () {
       return {
         isShow: false,
         mouseOffsetX: 0,   // 鼠标偏移量
         mouseOffsetY: 0,
         isDraging: false,  // 是否可拖动
-        isShowBac: false,
-        isAshow: true,
+        isShowBac: false,  // 是否显示ragCon-mask和drag-mask，防止鼠标选中
+        redu_max: true,
         dragStyle: {
           width: 800 + 'px',
           height: 428 + 'px',
@@ -49,8 +49,9 @@
       }
     },
     watch: {
-      'tNum': function (val, oldValue) {
-        if (this.ifShow === 0) {
+      // 监控dragNum的变化，触发下列操作
+      'dragNum': function (val, oldValue) {
+        if (this.whetherShow === 0) {
           this.isShow = true
           this.$nextTick(() => {
             this.setStyle()
@@ -59,7 +60,7 @@
             this.emitData.push(this.src)
             this.emitData.push(1)
             this.emitData.push(this.activeName)
-            this.$emit('change-isAshow', this.emitData)
+            this.$emit('is_max_redu', this.emitData)
           })
         } else {
           this.isShow = false
@@ -67,7 +68,7 @@
           this.emitData.push(true)
           this.emitData.push(this.src)
           this.emitData.push(0)
-          this.$emit('change-isAshow', this.emitData)
+          this.$emit('is_max_redu', this.emitData)
         }
       }
     },
@@ -82,8 +83,8 @@
         this.isShow = false
         this.dragStyle.width = 800 + 'px'
         this.dragStyle.height = 428 + 'px'
-        this.dragStyle.left = 0 + 'px'
-        this.dragStyle.top = 0 + 'px'
+        this.dragStyle.left = 0
+        this.dragStyle.top = 0
         this.dragConW = 800
         this.dragConH = 400
         this.emitData.length = 0
@@ -91,7 +92,7 @@
         this.emitData.push('')
         this.emitData.push(1)
         this.emitData.push('')
-        this.$emit('change-isAshow', this.emitData)
+        this.$emit('is_max_redu', this.emitData)
       },
       setStyle: function () {
         let bodyW = document.documentElement.clientWidth
@@ -144,13 +145,13 @@
       maximization: function () {
         let drSwidth = document.documentElement.clientWidth + 'px'
         let drSheight = document.documentElement.clientHeight + 'px'
-        let drSleft = 0 + 'px'
-        let drStop = 0 + 'px'
+        let drSleft = 0
+        let drStop = 0
         let drCw = document.documentElement.clientWidth - 6
         let drCh = document.documentElement.clientHeight - 30
         $('.drag').animate({width: drSwidth, height: drSheight, left: drSleft, top: drStop}, 'slow')
         $('.myIframe').animate({width: drCw, height: drCh}, 'slow')
-        this.isAshow = false
+        this.redu_max = false
       },
       minimize: function () {
         this.isShow = false
@@ -159,7 +160,7 @@
         this.emitData.push(this.src)
         this.emitData.push(0)
         this.emitData.push(this.activeName)
-        this.$emit('change-isAshow', this.emitData)
+        this.$emit('is_max_redu', this.emitData)
 //        document.getElementById('myIframe').src = ''
       },
       remaximi: function () {
@@ -175,7 +176,7 @@
         let drCw = 800
         let drCh = 400
         $('.myIframe').animate({width: drCw, height: drCh}, 'slow')
-        this.isAshow = true
+        this.redu_max = true
       }
     }
   }

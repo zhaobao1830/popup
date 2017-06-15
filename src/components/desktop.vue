@@ -11,9 +11,9 @@
         </li>
       </ul>
     </div>
-    <v-drag :src="src" :tNum="tNum" :ifShow="ifShow" :activeName="activeName" @change-isAshow="changeIsAshow"></v-drag>
+    <v-drag :src="src" :dragNum="dragNum" :whetherShow="whetherShow" :activeName="activeName" @is_max_redu="max_redu"></v-drag>
     <div class="operation" ref="operation" :style="operationStyle">
-      <span v-show="isAshow" @click="recovery">最小化</span>
+      <span v-show="redu_max" @click="recovery">最小化</span>
       <span class="line" @click="chageline"></span>
       <span class="column" @click="chagecolumn"></span>
       <span class="close"></span>
@@ -33,14 +33,14 @@
           height: document.documentElement.clientHeight + 'px',
           width: document.documentElement.clientWidth + 'px'
         },
-        isAshow: false,
+        redu_max: false,
         ifMin: '', // 是否最小化
         src: '', // iframe的src
-        tNum: {
+        dragNum: { // 随意定义的，点击icon，自动+1,传给子类
           type: Number,
           value: 0
         },
-        ifShow: 0, // 0表示显示，1表示不显示
+        whetherShow: 0, // 0显示，1不显示 判断drag层是否显示
         desktopLi: {  //  图标li样式
           width: '',
           height: ''
@@ -48,9 +48,9 @@
         operationStyle: {  // operation(操作)样式
           left: ''
         },
-        plchioce: 'line',
+        plchioce: 'line', // line 纵向排列，column 横向排列
         emitSrc: '', // 子组件传过来的src
-        activeName: ''
+        activeName: '' // 点击li时的name值
       }
     },
     components: {
@@ -86,21 +86,23 @@
     },
     methods: {
       showDrag: function (activeName, url) {
+        // this.src加time的作用：给ser加随机参数，drag页面进行比较
         this.src = url + '?time=' + Math.random()
-        this.tNum += 1
-        this.ifShow = 0
-        this.isAshow = true
+        this.dragNum += 1
+        this.whetherShow = 0
+        this.redu_max = true
         this.activeName = activeName
       },
       hideSecondPopup: function () {
         this.src = this.src
-        this.tNum += 1
-        this.ifShow = 1
+        this.dragNum += 1
+        this.whetherShow = 1
       },
 //      设置ul的高度--纵向排列
       operationLineUl: function () {
+        console.log(Number(this.desktopLi.height.split('p')[0]) + 15)
 //        一列可放的li数量
-        let lineNumber = Math.floor(parseInt(this.desktopStyle.height) / parseInt(Number(this.desktopLi.height.split('p')[0]) + Number(15)))
+        let lineNumber = Math.floor(parseInt(this.desktopStyle.height) / parseInt(Number(this.desktopLi.height.split('p')[0]) + 15))
 //        页内显示的li的列数
         let columnNumber = Math.floor(this.$refs.iconLi.length / lineNumber)
         this.operationLi(this.$refs.iconLi, lineNumber, columnNumber, 'line')
@@ -123,7 +125,7 @@
             Math.floor(i / lineNumber) < 1 ? iLineNum = 1 : iLineNum = 2
 //            数量/一列li数 取整 =当前模块的left值
             li[i].style.left = (parseInt(this.desktopLi.width.split('p')[0]) + parseInt(10) + 2) * Math.floor(i / lineNumber) + (10 * iLineNum) + 'px'
-            li[i].style.top = (lineCount === 0 ? 15 + 'px' : ((parseInt(this.desktopLi.height.split('p')[0]) + 2 + parseInt(15)) * lineCount + 15 + 'px'))
+            li[i].style.top = (lineCount === 0 ? 15 + 'px' : ((parseInt(this.desktopLi.height.split('p')[0]) + 2 + 15) * lineCount + 15 + 'px'))
             lineCount >= lineNumber - 1 ? lineCount = 0 : lineCount++
           }
         } else if (state === 'column') {
@@ -143,9 +145,9 @@
         this.plchioce = 'column'
         this.operationColumnUl()
       },
-      changeIsAshow: function (data) {
+      max_redu: function (data) {
+        this.redu_max = data[0]
         this.ifMin = data[2]
-        this.isAshow = data[0]
         if (data[1]) {
           this.emitSrc = data[1]
           this.activeName = data[3]
