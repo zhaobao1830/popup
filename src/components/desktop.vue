@@ -100,7 +100,6 @@
       },
 //      设置ul的高度--纵向排列
       operationLineUl: function () {
-        console.log(Number(this.desktopLi.height.split('p')[0]) + 15)
 //        一列可放的li数量
         let lineNumber = Math.floor(parseInt(this.desktopStyle.height) / parseInt(Number(this.desktopLi.height.split('p')[0]) + 15))
 //        页内显示的li的列数
