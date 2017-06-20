@@ -189,7 +189,7 @@
         border 1px solid #ffffff
       & > ul.iconSize > li
         width 68px
-        height 90px
+        height 92px
       & > ul > li
         list-style none
         overflow hidden
