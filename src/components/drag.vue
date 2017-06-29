@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="drag" ref="drag" v-show="isShow" :style="dragStyle">
+    <div class="myDrag" ref="drag" v-show="isShow" :style="dragStyle">
       <div class="dragTitle" onslectstart="return false">
         <a href="javascript:;" title='关闭' class="close" @click="closeDrag">
           <img src="../common/img/close.png"/>
@@ -183,7 +183,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" type="text/stylus">
-  .drag
+  .myDrag
     position absolute
     top 0
     left 0
