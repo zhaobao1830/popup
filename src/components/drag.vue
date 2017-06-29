@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="drag" id="drag" ref="drag" v-show="isShow" :style="dragStyle">
+    <div class="drag" ref="drag" v-show="isShow" :style="dragStyle">
       <div class="dragTitle" onslectstart="return false">
         <a href="javascript:;" title='关闭' class="close" @click="closeDrag">
           <img src="../common/img/close.png"/>

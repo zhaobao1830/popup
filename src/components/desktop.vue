@@ -1,5 +1,5 @@
 <template>
-  <div id="desktop" :style="desktopStyle">
+  <div class="myDesktop" :style="desktopStyle">
     <div class="iconList" id="iconList">
       <ul id="iconUl" class="iconUl iconSize" ref="iconUl">
         <li v-for="(appli, index) in appliList" ref="iconLi" @click="showDrag(appli.name,appli.url)"
@@ -24,8 +24,8 @@
 <script type="text/ecmascript-6">
   import drag from './drag'
   import dataJson from '../common/data/data.json'
+
   export default {
-    name: 'desktop',
     data () {
       return {
         appliList: [], // 保存请求返回的数据
@@ -67,9 +67,6 @@
 //          }
 //          this.setOperation()
 //        })
-//      })
-//      this.$http.jsonp('http://static.crecgec.com/crecgec/data.json').then((response) => {
-//        console.log(response)
 //      })
       this.appliList = dataJson.application
       this.$nextTick(() => {
@@ -183,7 +180,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" type="text/stylus">
-  #desktop
+  .myDesktop
     position relative
     overflow hidden
     background-image url("/static/img/background.png")

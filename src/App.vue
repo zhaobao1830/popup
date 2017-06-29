@@ -1,12 +1,12 @@
 <template>
-  <div id="app" class="displayNone">
+  <div class="myApp displayNone">
     <router-view></router-view>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 export default {
-  name: 'app'
+  name: 'myApp'
 }
 </script>
 
@@ -14,7 +14,7 @@ export default {
 *
   margin: 0
   padding: 0
-#app
+.myApp
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
