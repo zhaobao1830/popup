@@ -1,7 +1,7 @@
 {
   "application": [
     {
-      "name": "企业认证1111111",
+      "name": "企业认证",
       "icon": "/static/img/enterCertifi.png",
       "url": "/api/creclb/index.php?api=qiyedaiban&module=creclb&jump=m.crecgec.com/home/access"
     },

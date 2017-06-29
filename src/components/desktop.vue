@@ -23,8 +23,7 @@
 
 <script type="text/ecmascript-6">
   import drag from './drag'
-  import dataJson from '../../data.json'
-
+  import dataJson from '../common/data/data.json'
   export default {
     name: 'desktop',
     data () {
@@ -68,6 +67,9 @@
 //          }
 //          this.setOperation()
 //        })
+//      })
+//      this.$http.jsonp('http://static.crecgec.com/crecgec/data.json').then((response) => {
+//        console.log(response)
 //      })
       this.appliList = dataJson.application
       this.$nextTick(() => {

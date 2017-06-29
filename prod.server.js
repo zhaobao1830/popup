@@ -14,16 +14,16 @@ router.get('/', function (req, res, next) {
 
 app.use(router)
 
-var appData = require('./data.json')
-var application = appData.application
-
-var apiRouter = express.Router()
-apiRouter.get('/application', function (req, res) {
-  res.json({
-    data: application
-  })
-})
-app.use('/api', apiRouter)
+// var appData = require('./src/common/data/data.json')
+// var application = appData.application
+//
+// var apiRouter = express.Router()
+// apiRouter.get('/application', function (req, res) {
+//   res.json({
+//     data: application
+//   })
+// })
+// app.use('/api', apiRouter)
 
 app.use(express.static('./dist'))
 
