@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang='zh'>
+<head>
+  <meta charset='UTF-8'>
+  <meta http-equiv='x-ua-compatible' content='ie=edge'>
+  <title>Title</title>
+  <meta name='viewport' content='width=device-width, initial-scale=1，minimum-scale=1,maximum-sacle=1，user-scalable=no'>
+</head>
+<body>
+ <a href='javascript:;' onclick='appShow()'>展示</a>
+
+ <script type='text/javascript' src='http://static.crecgec.com/crecgec/js/jquery-3.1.1.min.js'></script>
+ <script type='text/javascript'>
+   function appShow () {
+     if($('#app').hasClass('displayNone')) {
+       $('#app').removeClass('displayNone').addClass('diaplayBlock')
+     }else{
+       $('#app').removeClass('diaplayBlock').addClass('displayNone')
+     }
+   }
+ </script>
+</body>
+</html>

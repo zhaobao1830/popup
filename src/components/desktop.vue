@@ -23,6 +23,7 @@
 
 <script type="text/ecmascript-6">
   import drag from './drag'
+  import dataJson from '../../data.json'
 
   export default {
     name: 'desktop',
@@ -57,16 +58,25 @@
       'v-drag': drag
     },
     mounted () {
-      this.$http.get('/api/application').then((response) => {
-        this.appliList = response.body.data
-        this.$nextTick(() => {
-          if (this.plchioce === 'line') {
-            this.operationLineUl()
-          } else if (this.plchioce === 'column') {
-            this.operationColumnUl()
-          }
-          this.setOperation()
-        })
+//      this.$http.get('/api/application').then((response) => {
+//        this.appliList = response.body.data
+//        this.$nextTick(() => {
+//          if (this.plchioce === 'line') {
+//            this.operationLineUl()
+//          } else if (this.plchioce === 'column') {
+//            this.operationColumnUl()
+//          }
+//          this.setOperation()
+//        })
+//      })
+      this.appliList = dataJson.application
+      this.$nextTick(() => {
+        if (this.plchioce === 'line') {
+          this.operationLineUl()
+        } else if (this.plchioce === 'column') {
+          this.operationColumnUl()
+        }
+        this.setOperation()
       })
       var that = this
       window.onresize = () => {
