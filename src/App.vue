@@ -6,7 +6,20 @@
 
 <script type="text/ecmascript-6">
 export default {
-  name: 'myApp'
+  name: 'myApp',
+  data () {
+    return {
+      isShow: false
+    }
+  },
+  methods: {
+    showMyApp: function () {
+      this.isShow = true
+    },
+    hideMyApp: function () {
+      this.isShow = false
+    }
+  }
 }
 </script>
 
