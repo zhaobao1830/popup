@@ -1,26 +1,13 @@
 <template>
-  <div class="myApp displayNone">
+  <div class="myApp displayNone" ref="myApp">
     <router-view></router-view>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-export default {
-  name: 'myApp',
-  data () {
-    return {
-      isShow: false
-    }
-  },
-  methods: {
-    showMyApp: function () {
-      this.isShow = true
-    },
-    hideMyApp: function () {
-      this.isShow = false
-    }
+  export default {
+    name: 'myApp'
   }
-}
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" type="text/stylus">

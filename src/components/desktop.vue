@@ -16,12 +16,13 @@
       <span v-show="redu_max" @click="recovery">最小化</span>
       <span class="line" @click="chageline"></span>
       <span class="column" @click="chagecolumn"></span>
-      <span class="close"></span>
+      <span class="close" @click="myAppClose"></span>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import $ from 'jquery'
   import drag from './drag'
   import dataJson from '../common/data/data.json'
 
@@ -174,6 +175,9 @@
         let bodyWidth = document.documentElement.clientWidth
         let operationWidth = this.$refs.operation.offsetWidth
         this.operationStyle.left = (bodyWidth - operationWidth) / 2 + 'px'
+      },
+      myAppClose: function () {
+        $('.myApp').removeClass('displayBlock').addClass('displayNone')
       }
     }
   }
