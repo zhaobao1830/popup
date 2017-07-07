@@ -1,53 +1,53 @@
 {
   "application": [
     {
-      "name": "企业认证1111111",
-      "icon": "/static/img/enterCertifi.png",
+      "name": "企业认证",
+      "icon": "http://static.crecgec.com/crecgec/deskTop/img/enterCertifi.png",
       "url": "/api/creclb/index.php?api=qiyedaiban&module=creclb&jump=m.crecgec.com/home/access"
     },
     {
       "name": "企业资料变更",
-      "icon": "/static/img/enterDataChange.png",
+      "icon": "http://static.crecgec.com/crecgec/deskTop/img/enterDataChange.png",
       "url": "/api/creclb/index.php?api=qiyedaiban&module=creclb&jump=m.crecgec.com/Vendor/index"
     },
     {
       "name": "服务订单",
-      "icon": "/static/img/serviceOrder.png",
+      "icon": "http://static.crecgec.com/crecgec/deskTop/img/serviceOrder.png",
       "url": "/api/creclb/index.php?api=qiyedaiban&module=creclb&jump=m.crecgec.com/Service/Order"
     },
     {
       "name": "供方交易系统",
-      "icon": "/static/img/supTranSys.png",
+      "icon": "http://static.crecgec.com/crecgec/deskTop/img/supTranSys.png",
       "url": "/api/creclb/index.php?api=qiyedaiban&module=creclb&jump=ecom.crecgec.com/cwbase/web/sso.aspx"
     },
     {
       "name": "劳务招标系统",
-      "icon": "/static/img/serviceBidding.png",
+      "icon": "http://static.crecgec.com/crecgec/deskTop/img/serviceBidding.png",
       "url": "/api/creclb/index.php?api=qiyedaiban&module=creclb&jump=laowu.crecgec.com/cwbase/web/sso.aspx"
     },
     {
       "name": "机械设备",
-      "icon": "/static/img/mechEqui.png",
+      "icon": "http://static.crecgec.com/crecgec/deskTop/img/mechEqui.png",
       "url": "http://shebei.crecgec.com/forum-54-1.html"
     },
     {
       "name": "专家认证",
-      "icon": "/static/img/expertCertifi.png",
+      "icon": "http://static.crecgec.com/crecgec/deskTop/img/expertCertifi.png",
       "url": "/api/creclb/index.php?api=qiyedaiban&module=creclb&jump=ecom.crecgec.com/cwbase/web/session/cepp/expert/ExpertApply.aspx"
     },
     {
       "name": "劳务评标系统",
-      "icon": "/static/img/laborEvalSys.png",
+      "icon": "http://static.crecgec.com/crecgec/deskTop/img/laborEvalSys.png",
       "url": "/api/creclb/index.php?api=qiyedaiban&module=creclb&jump=laowu.crecgec.com/cwbase/web/sso.aspx"
     },
     {
       "name": "专家评标系统",
-      "icon": "/static/img/expertEvalSys.png",
+      "icon": "http://static.crecgec.com/crecgec/deskTop/img/expertEvalSys.png",
       "url": "/api/creclb/index.php?api=qiyedaiban&module=creclb&jump=ecom.crecgec.com/cwbase/web/sso.aspx"
     },
     {
       "name": "物料编码",
-      "icon": "/static/img/materialCoding.png",
+      "icon": "http://static.crecgec.com/crecgec/deskTop/img/materialCoding.png",
       "url": "/api/creclb/index.php?api=qiyedaiban&module=creclb&jump=ecom.crecgec.com/cwbase/web/sso.aspx"
     }
   ]

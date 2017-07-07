@@ -79,16 +79,39 @@
         this.setOperation()
       })
       var that = this
-      window.onresize = () => {
-        that.desktopStyle.width = document.documentElement.clientWidth + 'px'
-        that.desktopStyle.height = document.documentElement.clientHeight + 'px'
-        if (this.plchioce === 'line') {
-          this.operationLineUl()
-        } else if (this.plchioce === 'column') {
-          this.operationColumnUl()
-        }
-        this.setOperation()
+      if (window.attachEvent) {
+        window.attachEvent('resize', function () {
+          that.desktopStyle.width = document.documentElement.clientWidth + 'px'
+          that.desktopStyle.height = document.documentElement.clientHeight + 'px'
+          if (that.plchioce === 'line') {
+            that.operationLineUl()
+          } else if (this.plchioce === 'column') {
+            that.operationColumnUl()
+          }
+          that.setOperation()
+        })
+      } else {
+        window.addEventListener('resize', function () {
+          that.desktopStyle.width = document.documentElement.clientWidth + 'px'
+          that.desktopStyle.height = document.documentElement.clientHeight + 'px'
+          if (that.plchioce === 'line') {
+            that.operationLineUl()
+          } else if (that.plchioce === 'column') {
+            that.operationColumnUl()
+          }
+          that.setOperation()
+        })
       }
+//      window.onresize = () => {
+//        that.desktopStyle.width = document.documentElement.clientWidth + 'px'
+//        that.desktopStyle.height = document.documentElement.clientHeight + 'px'
+//        if (this.plchioce === 'line') {
+//          this.operationLineUl()
+//        } else if (this.plchioce === 'column') {
+//          this.operationColumnUl()
+//        }
+//        this.setOperation()
+//      }
     },
     updated () {
       this.desktopLi.width = window.getComputedStyle(this.$refs.iconLi[0]).width
@@ -187,7 +210,7 @@
   .myDesktop
     position relative
     overflow hidden
-    background-image url("/static/img/background.png")
+    background-image url("http://static.crecgec.com/crecgec/deskTop/img/background.png")
     background-size cover
     background-position 0 0
     background-repeat no-repeat
@@ -253,17 +276,17 @@
       .line:hover
         width 94px
         height 38px
-        background url("/static/img/line.png") 0 0 no-repeat
+        background url("http://static.crecgec.com/crecgec/deskTop/img/line.png") 0 0 no-repeat
       .column:hover
         width 94px
         height 38px
-        background url("/static/img/column.png") 0 0 no-repeat
+        background url("http://static.crecgec.com/crecgec/deskTop/img/column.png") 0 0 no-repeat
       .column:before
         content '横向'
         background none
       .close:before
         content '关闭'
       .close:hover
-        background url("/static/img/colse.png") 0 0 no-repeat
+        background url("http://static.crecgec.com/crecgec/deskTop/img/colse.png") 0 0 no-repeat
 </style>
 
