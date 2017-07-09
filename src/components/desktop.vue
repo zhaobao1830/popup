@@ -2,16 +2,13 @@
   <div class="myDesktop" :style="desktopStyle">
     <div class="iconList" id="iconList">
       <ul id="iconUl" class="iconUl iconSize" ref="iconUl">
-        <li v-for="(appli, index) in appliList" ref="iconLi" @click="showDrag(appli.name,appli.url)"
+        <li v-for="(appli, index) in appliList" ref="iconLi" @click="showDrag(appli.name,appli.url, index)"
             :class="{active: activeName === appli.name}">
-          <div>
-            <img :src="appli.icon"/>
-          </div>
-          <span>{{appli.name}}</span>
+          <icon-display :appli="appli" :dragNum="dragNum" :whetherShow="whetherShow"
+          :dragIndex="index" :showIndex="showIndex" @newIndex="newIndexs"></icon-display>
         </li>
       </ul>
     </div>
-    <v-drag :src="src" :dragNum="dragNum" :whetherShow="whetherShow" :activeName="activeName" @is_max_redu="max_redu"></v-drag>
     <div class="operation" ref="operation" :style="operationStyle">
       <span v-show="redu_max" @click="recovery">最小化</span>
       <span class="line" @click="chageline"></span>
@@ -23,7 +20,7 @@
 
 <script type="text/ecmascript-6">
   import $ from 'jquery'
-  import drag from './drag'
+  import iconDisplay from './iconDisplay'
   import dataJson from '../common/data/data.json'
 
   export default {
@@ -51,11 +48,12 @@
         },
         plchioce: 'line', // line 纵向排列，column 横向排列
         emitSrc: '', // 子组件传过来的src
-        activeName: '' // 点击li时的name值
+        activeName: '', // 点击li时的name值
+        showIndex: []  // 保存当前显示的index
       }
     },
     components: {
-      'v-drag': drag
+      'icon-display': iconDisplay
     },
     mounted () {
       this.appliList = dataJson.application
@@ -97,13 +95,12 @@
       this.desktopLi.height = window.getComputedStyle(this.$refs.iconLi[0]).height
     },
     methods: {
-      showDrag: function (activeName, url) {
-        // this.src加time的作用：给ser加随机参数，drag页面进行比较
-        this.src = url + '?time=' + Math.random()
+      showDrag: function (activeName, url, showIndex) {
         this.dragNum += 1
         this.whetherShow = 0
         this.redu_max = true
         this.activeName = activeName
+        this.showIndex.push(showIndex)
       },
       hideSecondPopup: function () {
         this.src = this.src
@@ -156,16 +153,6 @@
         this.plchioce = 'column'
         this.operationColumnUl()
       },
-      max_redu: function (data) {
-        this.redu_max = data[0]
-        this.ifMin = data[2]
-        if (data[1]) {
-          this.emitSrc = data[1]
-          this.activeName = data[3]
-        } else {
-          this.activeName = ''
-        }
-      },
       recovery: function () {
         if (this.ifMin === 0) {
           this.showDrag(this.activeName, this.emitSrc)
@@ -180,6 +167,11 @@
       },
       myAppClose: function () {
         $('.myApp').removeClass('displayBlock').addClass('displayNone')
+      },
+      newIndexs: function (data) {
+        console.log(data)
+        console.log(data[0])
+        this.showIndex = data
       }
     }
   }
@@ -187,7 +179,6 @@
 
 <style lang="stylus" rel="stylesheet/stylus" type="text/stylus">
   .myDesktop
-    position relative
     overflow hidden
     background-image url("http://static.crecgec.com/crecgec/deskTop/img/background.png")
     background-size cover
@@ -206,7 +197,6 @@
         height 92px
       & > ul > li
         list-style none
-        overflow hidden
         cursor pointer
         text-align center
         position absolute
@@ -215,17 +205,6 @@
         &:hover
           background-color rgba(255,255,255,0.5)
           border 1px solid #ffffff
-        & > div
-          width 70px
-          height 50px
-        & > span
-          width 60px
-          display block
-          margin-left 5px
-          font-size 12px
-          text-align center
-          color #fff
-          margin-top 10px
     .operation
       width auto
       height 40px

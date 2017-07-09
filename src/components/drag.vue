@@ -1,8 +1,8 @@
 <template>
-  <div class="myDragCon">
-    <div class="myDrag" ref="drag" v-show="isShow" :style="dragStyle">
+  <div class="myDragCon" :dragIndex="dragIndex" :dataSrc="src" ref="myDragCon" :class="{displayBlock: showIndex.indexOf(dragIndex)!==-1, displayNone: showIndex.indexOf(dragIndex)===-1}">
+    <div class="myDrag" ref="drag" :style="dragStyle">
       <div class="dragTitle" onslectstart="return false">
-        <a href="javascript:;" title='关闭' class="close" @click="closeDrag">
+        <a href="javascript:;" title='关闭' class="close" @click.stop="closeDrag">
           <img src="../common/img/close.png"/>
         </a>
         <a href="javascript:;" title='最大化' class="maximization" @click="maximization" v-if="redu_max===true">
@@ -16,7 +16,10 @@
         </a>
       </div>
       <div class="dragContent" ref="dragContent">
-        <iframe ref="myIframe" name="myIframe" class="myIframe" id="myIframe" :src="src" :width="dragConW" :height="dragConH"></iframe>
+        <iframe v-if="showIndex.indexOf(dragIndex)!==-1"  name="myIframe"
+                :src="src" :width="dragConW" :height="dragConH"></iframe>
+        <iframe v-else  name="myIframe"
+                 :src="dataSrc" :width="dragConW" :height="dragConH"></iframe>
         <div class="dragCon-mask" id="mask" v-show="isShowBac" onslectstart="return false"></div>
       </div>
     </div>
@@ -28,7 +31,7 @@
   import $ from 'jquery'
 
   export default {
-    props: ['src', 'dragNum', 'whetherShow', 'activeName'],
+    props: ['src', 'dragNum', 'whetherShow', 'activeName', 'dragIndex', 'showIndex'],
     data () {
       return {
         isShow: false,
@@ -45,7 +48,8 @@
         },
         emitData: [],
         dragConW: 800, // 悬浮层content的width
-        dragConH: 400  // 悬浮层content的height
+        dragConH: 400,  // 悬浮层content的height
+        dataSrc: ''
       }
     },
     watch: {
@@ -79,7 +83,12 @@
     },
     methods: {
       closeDrag: function () {
-        document.getElementById('myIframe').src = ''
+//        document.getElementById('myIframe').src = ''
+        let spliceIndex = this.showIndex.indexOf(this.dragIndex)
+        console.log(this.showIndex)
+        console.log(this.showIndex.length)
+        console.log(this.showIndex[1])
+        this.showIndex.splice(spliceIndex, 1)
         this.isShow = false
         this.dragStyle.width = 800 + 'px'
         this.dragStyle.height = 428 + 'px'
@@ -87,12 +96,13 @@
         this.dragStyle.top = 0
         this.dragConW = 800
         this.dragConH = 400
-        this.emitData.length = 0
-        this.emitData.push(false)
-        this.emitData.push('')
-        this.emitData.push(1)
-        this.emitData.push('')
-        this.$emit('is_max_redu', this.emitData)
+//        this.emitData.length = 0
+//        this.emitData.push(false)
+//        this.emitData.push('')
+//        this.emitData.push(1)
+//        this.emitData.push('')
+//        this.$emit('is_max_redu', this.emitData)
+        this.$emit('newShowIndex', this.showIndex)
       },
       setStyle: function () {
         let bodyW = document.documentElement.clientWidth
@@ -161,7 +171,6 @@
         this.emitData.push(0)
         this.emitData.push(this.activeName)
         this.$emit('is_max_redu', this.emitData)
-//        document.getElementById('myIframe').src = ''
       },
       remaximi: function () {
         let drSwidth = 800 + 'px'
@@ -189,6 +198,10 @@
     left 0
     z-index 9000
     background #fff
+    &.displayBlock
+      display: block
+    &.displayNone
+      display: none
     .dragTitle
       width 100%
       height 30px
