@@ -149,7 +149,7 @@
         let drStop = 0
         let drCw = document.documentElement.clientWidth - 6
         let drCh = document.documentElement.clientHeight - 30
-        $('.drag').animate({width: drSwidth, height: drSheight, left: drSleft, top: drStop}, 'slow')
+        $('.myDrag').animate({width: drSwidth, height: drSheight, left: drSleft, top: drStop}, 'slow')
         $('.myIframe').animate({width: drCw, height: drCh}, 'slow')
         this.redu_max = false
       },
@@ -172,7 +172,7 @@
         let dragH = 428
         let drSleft = (bodyW - dragW) / 2 + 'px'
         let drStop = (bodyH - dragH) / 2 + 'px'
-        $('.drag').animate({width: drSwidth, height: drSheight, left: drSleft, top: drStop}, 'slow')
+        $('.myDrag').animate({width: drSwidth, height: drSheight, left: drSleft, top: drStop}, 'slow')
         let drCw = 800
         let drCh = 400
         $('.myIframe').animate({width: drCw, height: drCh}, 'slow')

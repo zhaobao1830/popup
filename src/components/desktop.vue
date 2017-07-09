@@ -58,17 +58,6 @@
       'v-drag': drag
     },
     mounted () {
-//      this.$http.get('/api/application').then((response) => {
-//        this.appliList = response.body.data
-//        this.$nextTick(() => {
-//          if (this.plchioce === 'line') {
-//            this.operationLineUl()
-//          } else if (this.plchioce === 'column') {
-//            this.operationColumnUl()
-//          }
-//          this.setOperation()
-//        })
-//      })
       this.appliList = dataJson.application
       this.$nextTick(() => {
         if (this.plchioce === 'line') {
@@ -102,16 +91,6 @@
           that.setOperation()
         })
       }
-//      window.onresize = () => {
-//        that.desktopStyle.width = document.documentElement.clientWidth + 'px'
-//        that.desktopStyle.height = document.documentElement.clientHeight + 'px'
-//        if (this.plchioce === 'line') {
-//          this.operationLineUl()
-//        } else if (this.plchioce === 'column') {
-//          this.operationColumnUl()
-//        }
-//        this.setOperation()
-//      }
     },
     updated () {
       this.desktopLi.width = window.getComputedStyle(this.$refs.iconLi[0]).width
