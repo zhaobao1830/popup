@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="myDragCon">
     <div class="myDrag" ref="drag" v-show="isShow" :style="dragStyle">
       <div class="dragTitle" onslectstart="return false">
         <a href="javascript:;" title='关闭' class="close" @click="closeDrag">
