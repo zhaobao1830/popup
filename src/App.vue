@@ -1,12 +1,17 @@
 <template>
   <div class="myApp" ref="myApp">
-    <router-view></router-view>
+    <desktop></desktop>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import desktop from '@/components/desktop'
+
   export default {
-    name: 'myApp'
+    name: 'myApp',
+    components: {
+      desktop
+    }
   }
 </script>
 
