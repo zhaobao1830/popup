@@ -26,6 +26,7 @@
 
 <script type="text/ecmascript-6">
   import $ from 'jquery'
+  import Velocity from 'velocity-animate'
 
   export default {
     props: ['src', 'dragNum', 'whetherShow', 'activeName'],
@@ -81,12 +82,17 @@
       closeDrag: function () {
         document.getElementById('myIframe').src = ''
         this.isShow = false
-        this.dragStyle.width = 800 + 'px'
-        this.dragStyle.height = 428 + 'px'
-        this.dragStyle.left = 0
-        this.dragStyle.top = 0
-        this.dragConW = 800
-        this.dragConH = 400
+        this.redu_max = true
+        let drSwidth = 800 + 'px'
+        let drSheight = 428 + 'px'
+        let bodyW = document.documentElement.clientWidth
+        let bodyH = document.documentElement.clientHeight
+        let drSleft = (bodyW - 800) / 2 + 'px'
+        let drStop = (bodyH - 428) / 2 + 'px'
+        let drCw = 800
+        let drCh = 400
+        Velocity($('.myDrag'), {width: drSwidth, height: drSheight, left: drSleft, top: drStop}, 500)
+        Velocity($('.myIframe'), {width: drCw, height: drCh}, 500)
         this.emitData.length = 0
         this.emitData.push(false)
         this.emitData.push('')
@@ -149,8 +155,8 @@
         let drStop = 0
         let drCw = document.documentElement.clientWidth - 6
         let drCh = document.documentElement.clientHeight - 30
-        $('.myDrag').animate({width: drSwidth, height: drSheight, left: drSleft, top: drStop}, 'slow')
-        $('.myIframe').animate({width: drCw, height: drCh}, 'slow')
+        Velocity($('.myDrag'), {width: drSwidth, height: drSheight, left: drSleft, top: drStop}, 500)
+        Velocity($('.myIframe'), {width: drCw, height: drCh}, 500)
         this.redu_max = false
       },
       minimize: function () {
@@ -161,7 +167,6 @@
         this.emitData.push(0)
         this.emitData.push(this.activeName)
         this.$emit('is_max_redu', this.emitData)
-//        document.getElementById('myIframe').src = ''
       },
       remaximi: function () {
         let drSwidth = 800 + 'px'
@@ -172,10 +177,10 @@
         let dragH = 428
         let drSleft = (bodyW - dragW) / 2 + 'px'
         let drStop = (bodyH - dragH) / 2 + 'px'
-        $('.myDrag').animate({width: drSwidth, height: drSheight, left: drSleft, top: drStop}, 'slow')
         let drCw = 800
         let drCh = 400
-        $('.myIframe').animate({width: drCw, height: drCh}, 'slow')
+        Velocity($('.myDrag'), {width: drSwidth, height: drSheight, left: drSleft, top: drStop}, 500)
+        Velocity($('.myIframe'), {width: drCw, height: drCh}, 500)
         this.redu_max = true
       }
     }
