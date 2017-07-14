@@ -119,7 +119,7 @@
 //        this.emitData.push('')
 //        this.emitData.push(1)
 //        this.emitData.push('')
-//        this.$emit('is_max_redu', this.emitData)
+        this.$emit('is_max_redu', this.emitData)
         this.$emit('newShowIndex', this.showIndex)
       },
       setStyle: function () {
