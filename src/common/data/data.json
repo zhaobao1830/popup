@@ -3,12 +3,12 @@
     {
       "name": "企业认证",
       "icon": "http://static.crecgec.com/crecgec/deskTop/img/enterCertifi.png",
-      "url": "/api/creclb/index.php?api=qiyedaiban&module=creclb&jump=m.crecgec.com/home/access"
+      "url": "https://www.baidu.com/"
     },
     {
       "name": "企业资料变更",
       "icon": "http://static.crecgec.com/crecgec/deskTop/img/enterDataChange.png",
-      "url": "/api/creclb/index.php?api=qiyedaiban&module=creclb&jump=m.crecgec.com/Vendor/index"
+      "url": "http://web.sanguosha.com/"
     },
     {
       "name": "服务订单",
