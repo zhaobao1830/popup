@@ -188,7 +188,6 @@
       height 100%
       & > ul
         height 100%
-        position relative
       .active
         background-color rgba(255,255,255,0.5)
         border 1px solid #ffffff

@@ -119,7 +119,7 @@
 //        this.emitData.push('')
 //        this.emitData.push(1)
 //        this.emitData.push('')
-        this.$emit('is_max_redu', this.emitData)
+//        this.$emit('is_max_redu', this.emitData)
         this.$emit('newShowIndex', this.showIndex)
       },
       setStyle: function () {
@@ -127,8 +127,13 @@
         let bodyH = document.documentElement.clientHeight
         let dragW = this.$refs.drag.offsetWidth
         let dragH = this.$refs.drag.offsetHeight
+        console.log(bodyW)
+        console.log(dragH)
+        console.log('....')
+//        let parent = this.$refs.drag[0]
+//        console.log(parent)
         this.dragStyle.left = (bodyW - dragW) / 2 + 'px'
-        this.dragStyle.top = (bodyH - dragH) / 2 + 'px'
+        this.dragStyle.top = (bodyH - dragH) / 2 - 15 + 'px'
       },
       drapMousedown: function () {
         this.$refs.drag.addEventListener('mousedown', (e) => {
