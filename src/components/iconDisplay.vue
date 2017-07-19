@@ -5,7 +5,7 @@
     </div>
     <span>{{appli.name}}</span>
     <v-drag :src="appli.url" :dragNum="dragNum" :whetherShow="whetherShow" :activeName="activeName"
-            :dragIndex="dragIndex" :showIndex="showIndex" @is_max_redu="max_redu" @newShowIndex="newShowIndex"></v-drag>
+            :dragIndex="dragIndex" :showIndex="showIndex" :topGap="topGap" @is_max_redu="max_redu" @newShowIndex="newShowIndex"></v-drag>
   </div>
 </template>
 
@@ -13,7 +13,7 @@
   import drag from './drag'
 
   export default {
-    props: ['appli', 'dragNum', 'whetherShow', 'dragIndex', 'showIndex'],
+    props: ['appli', 'dragNum', 'whetherShow', 'dragIndex', 'showIndex', 'topGap'],
     data () {
       return {
         activeName: '' // 点击li时的name值

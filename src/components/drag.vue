@@ -32,7 +32,7 @@
   import Velocity from 'velocity-animate'
 
   export default {
-    props: ['src', 'dragNum', 'whetherShow', 'activeName', 'dragIndex', 'showIndex'],
+    props: ['src', 'dragNum', 'whetherShow', 'activeName', 'dragIndex', 'showIndex', 'topGap'],
     data () {
       return {
         isShow: false,
@@ -123,17 +123,13 @@
         this.$emit('newShowIndex', this.showIndex)
       },
       setStyle: function () {
+        console.log(this.topGap)
         let bodyW = document.documentElement.clientWidth
         let bodyH = document.documentElement.clientHeight
         let dragW = this.$refs.drag.offsetWidth
         let dragH = this.$refs.drag.offsetHeight
-        console.log(bodyW)
-        console.log(dragH)
-        console.log('....')
-//        let parent = this.$refs.drag[0]
-//        console.log(parent)
         this.dragStyle.left = (bodyW - dragW) / 2 + 'px'
-        this.dragStyle.top = (bodyH - dragH) / 2 - 15 + 'px'
+        this.dragStyle.top = ((bodyH - dragH) / 2) - this.topGap + 'px'
       },
       drapMousedown: function () {
         this.$refs.drag.addEventListener('mousedown', (e) => {

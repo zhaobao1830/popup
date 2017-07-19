@@ -2,9 +2,9 @@
   <div class="myDesktop" :style="desktopStyle">
     <div class="iconList" id="iconList">
       <ul id="iconUl" class="iconUl iconSize" ref="iconUl">
-        <li v-for="(appli, index) in appliList" ref="iconLi" @click="showDrag(appli.name,appli.url, index)"
+        <li v-for="(appli, index) in appliList" ref="iconLi" @click="showDrag(index, appli.name, appli.url, index)"
             :class="{active: activeName === appli.name}">
-          <icon-display :appli="appli" :dragNum="dragNum" :whetherShow="whetherShow"
+          <icon-display :appli="appli" :dragNum="dragNum" :topGap="topGap" :whetherShow="whetherShow"
           :dragIndex="index" :showIndex="showIndex" @newIndex="newIndexs"></icon-display>
         </li>
       </ul>
@@ -49,7 +49,11 @@
         plchioce: 'line', // line 纵向排列，column 横向排列
         emitSrc: '', // 子组件传过来的src
         activeName: '', // 点击li时的name值
-        showIndex: []  // 保存当前显示的index
+        showIndex: [],  // 保存当前显示的index
+        topGap: {
+          type: Number,
+          default: 0 // 因为现在的弹出层是以父类li为基准的，所以要找到这个差值，传给子组件
+        }
       }
     },
     components: {
@@ -95,12 +99,13 @@
       this.desktopLi.height = window.getComputedStyle(this.$refs.iconLi[0]).height
     },
     methods: {
-      showDrag: function (activeName, url, showIndex) {
+      showDrag: function (index, activeName, url, showIndex) {
         this.dragNum += 1
         this.whetherShow = 0
         this.redu_max = true
         this.activeName = activeName
         this.showIndex.push(showIndex)
+        this.topGap = parseInt($('.iconUl li')[index].style.top)
       },
       hideSecondPopup: function () {
         this.src = this.src
